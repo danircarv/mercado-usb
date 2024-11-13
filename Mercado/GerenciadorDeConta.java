@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 
 public class GerenciadorDeConta {
@@ -40,6 +38,19 @@ public class GerenciadorDeConta {
             System.out.println("Erro ao ler o arquivo: " + e.getMessage());
         } catch (NumberFormatException e) {
             System.out.println("Erro ao converter um valor: " + e.getMessage());
+        }
+    }
+
+    public void salvarContas(String filePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (Cliente conta : contas.values()) {
+                bw.write(conta.getId() + "," + conta.getNome() + "," +
+                        (conta.isPremium() ? "1" : "0") + "," + conta.getSenha() + "," +
+                        conta.getPontos());
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar o arquivo: " + e.getMessage());
         }
     }
 

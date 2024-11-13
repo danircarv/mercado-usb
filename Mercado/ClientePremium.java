@@ -1,4 +1,4 @@
-public class ClientePremium extends Cliente implements Operacoes {
+public class ClientePremium extends Cliente {
 
 
     public ClientePremium(int id, String nome, boolean isPremium, int senha, int pontos) {

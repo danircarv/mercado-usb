@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Mercado extends JFrame {
     private GerenciadorDeConta gerenciador;
@@ -78,7 +79,6 @@ public class Mercado extends JFrame {
         pontosLabel.setForeground(Color.BLACK); // Muda a cor do texto para ser visível no fundo
         backgroundLabel.add(pontosLabel);
 
-
         JButton adicionarPontosButton = new JButton("Adicionar Pontos");
         backgroundLabel.add(adicionarPontosButton);
 
@@ -87,6 +87,14 @@ public class Mercado extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 contaAutenticada.setPontos(contaAutenticada.getPontos() + 10);
                 pontosLabel.setText("Pontos: " + contaAutenticada.getPontos());
+            }
+        });
+
+        // Adiciona um WindowListener para salvar as contas ao fechar a janela
+        telaPrincipal.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                gerenciador.salvarContas("C:/Users/prodi/OneDrive/Documentos/Trabalho/mercado-usb/Mercado/dados.csv");
             }
         });
 
