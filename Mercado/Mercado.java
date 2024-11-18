@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Mercado extends JFrame {
     private GerenciadorDeConta gerenciador;
@@ -8,6 +9,8 @@ public class Mercado extends JFrame {
     private JPasswordField senhaField;
     private Cliente contaAutenticada;
     private int quantidadeAbacate = 0; // Quantidade inicial de abacate
+    private ArrayList<JSpinner> spinners = new ArrayList<>();
+    private ArrayList<Object> produtos = new ArrayList<>();
 
     public Mercado(GerenciadorDeConta gerenciador) {
         this.gerenciador = gerenciador;
@@ -86,56 +89,46 @@ public class Mercado extends JFrame {
         JPanel produtosPanel = new JPanel(new GridLayout(2, 3, 10, 10)); // 6 produtos
         telaPrincipal.add(produtosPanel, BorderLayout.CENTER);
 
-        // Cria cada produto
-        for (int i = 0; i < 6; i++) {
-            JPanel produtoPanel = new JPanel();
-            produtoPanel.setLayout(new BoxLayout(produtoPanel, BoxLayout.Y_AXIS));
-            produtoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // Inicializa produtos
+        produtos.add(new Abacate());
+        produtos.add(new Banana());
+        produtos.add(new Maca());
+        produtos.add(new Celular());
+        produtos.add(new Notebook());
+        produtos.add(new Tablet());
 
-            // Botões de controle de quantidade
-            JPanel quantidadePanel = new JPanel();
-            JButton maisButton = new JButton("+");
-            JButton menosButton = new JButton("-");
+        // Adiciona os produtos ao grid
+        for (Object produto : produtos) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-            JLabel quantidadeLabel = new JLabel("Quantidade: " + quantidadeAbacate);
+            // Usa a mesma imagem do abacate para todos os produtos
+            ImageIcon icon = new ImageIcon("caminho/para/imagem/abacate.png");
+            JLabel imageLabel = new JLabel(icon);
+            panel.add(imageLabel);
 
-            maisButton.addActionListener(e -> {
-                quantidadeAbacate++;
-                quantidadeLabel.setText("Quantidade: " + quantidadeAbacate);
-            });
+            // Adiciona o nome do produto
+            String nome = "";
+            if (produto instanceof Alimentos) {
+                nome = ((Alimentos) produto).getNome();
+            } else if (produto instanceof Eletronicos) {
+                nome = ((Eletronicos) produto).getNome();
+            }
+            JLabel nameLabel = new JLabel(nome);
+            panel.add(nameLabel);
 
-            menosButton.addActionListener(e -> {
-                if (quantidadeAbacate > 0) {
-                    quantidadeAbacate--;
-                    quantidadeLabel.setText("Quantidade: " + quantidadeAbacate);
-                }
-            });
+            // Adiciona o spinner para quantidade
+            JSpinner spinner = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+            spinners.add(spinner);
+            panel.add(spinner);
 
-            quantidadePanel.add(menosButton);
-            quantidadePanel.add(quantidadeLabel);
-            quantidadePanel.add(maisButton);
-            produtoPanel.add(quantidadePanel);
-
-            // Imagem do produto
-            ImageIcon abacateIcon = new ImageIcon("C:/Users/prodi/OneDrive/Documentos/Trabalho/mercado-usb/Mercado/abacate.png");
-            Image acabateImg = abacateIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-            abacateIcon = new ImageIcon(acabateImg);
-            JLabel abacateLabel = new JLabel(abacateIcon);
-            abacateLabel.setHorizontalAlignment(JLabel.CENTER);
-            produtoPanel.add(abacateLabel);
-
-            // Botão Adicionar
-            JButton adicionarButton = new JButton("Adicionar");
-            adicionarButton.addActionListener(e -> {
-                Abacate abacate = new Abacate();
-                double valorTotal = abacate.getValor(quantidadeAbacate);
-                System.out.println("Quantidade de abacate adicionada: " + quantidadeAbacate);
-                System.out.println("Preço total: " + valorTotal);
-            });
-            produtoPanel.add(adicionarButton);
-
-            produtosPanel.add(produtoPanel);
+            add(panel);
         }
+
+        // Adiciona botão de calcular
+        JButton calcularButton = new JButton("Calcular Total");
+        calcularButton.addActionListener(e -> calcularTotal());
+        add(calcularButton);
 
         // Exibe o valor final no console ao fechar
         telaPrincipal.addWindowListener(new WindowAdapter() {
@@ -157,22 +150,49 @@ public class Mercado extends JFrame {
 
         try {
             int senha = Integer.parseInt(senhaTexto);
+            // Primeiro, vamos imprimir as contas disponíveis para debug
+            System.out.println("Contas disponíveis:");
             for (Cliente conta : gerenciador.getContas().values()) {
-                if (conta.getNome().equals(nome) && conta.getSenha() == senha) {
-                    contaAutenticada = conta;
-                    abrirTelaPrincipal();
-                    dispose();
-                    return;
-                }
+                System.out.println("Nome: " + conta.getNome() + ", Senha: " + conta.getSenha());
             }
+            
+            // Agora vamos imprimir as credenciais tentadas
+            System.out.println("Tentativa de login - Nome: " + nome + ", Senha: " + senha);
+
+            Cliente conta = gerenciador.getContas().get(nome);
+            if (conta != null && conta.getSenha() == senha) {
+                contaAutenticada = conta;
+                abrirTelaPrincipal();
+                dispose();
+                return;
+            }
+            
             JOptionPane.showMessageDialog(this, "Nome ou senha incorretos", "Erro de Login", JOptionPane.ERROR_MESSAGE);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Senha inválida", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    private void calcularTotal() {
+        double total = 0;
+        for (int i = 0; i < produtos.size(); i++) {
+            Object produto = produtos.get(i);
+            int quantidade = (Integer) spinners.get(i).getValue();
+            
+            if (produto instanceof Alimentos) {
+                total += ((Alimentos) produto).getValor(quantidade);
+            } else if (produto instanceof Eletronicos) {
+                total += ((Eletronicos) produto).getValor(quantidade);
+            }
+        }
+        JOptionPane.showMessageDialog(this, 
+            String.format("Total da compra: R$ %.2f", total));
+    }
+
     public static void main(String[] args) {
         GerenciadorDeConta gerenciador = new GerenciadorDeConta();
+        // Imprime o caminho absoluto para verificar se está correto
+        System.out.println("Tentando carregar arquivo: C:/Users/prodi/OneDrive/Documentos/Trabalho/mercado-usb/Mercado/dados.csv");
         gerenciador.carregarContas("C:/Users/prodi/OneDrive/Documentos/Trabalho/mercado-usb/Mercado/dados.csv");
         new Mercado(gerenciador);
     }
