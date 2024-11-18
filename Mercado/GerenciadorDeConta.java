@@ -60,9 +60,5 @@ public class GerenciadorDeConta {
         }
     }
 
-    public static void main(String[] args) {
-        GerenciadorDeConta gerenciador = new GerenciadorDeConta();
-        gerenciador.carregarContas("C:/Users/prodi/OneDrive/Documentos/Trabalho/mercado-usb/Mercado/dados.csv");
-        gerenciador.exibirContas();
-    }
+
 }
