@@ -153,12 +153,6 @@ public class Mercado extends JFrame {
 
         telaPrincipal.add(produtosPanel, BorderLayout.CENTER);
 
-        JPanel bottomPanel = new JPanel();
-        JButton calcularButton = new JButton("Calcular Total");
-        calcularButton.addActionListener(e -> calcularTotal());
-        bottomPanel.add(calcularButton);
-        telaPrincipal.add(bottomPanel, BorderLayout.SOUTH);
-
         telaPrincipal.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
