@@ -63,4 +63,8 @@ abstract class Cliente {
                 ", pontos=" + pontos +
                 '}';
     }
+
+    public void adicionarPontos(int pontos) {
+        this.pontos += pontos;
+    }
 }

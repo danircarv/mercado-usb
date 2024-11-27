@@ -10,4 +10,12 @@ public class Celular implements Eletronicos {
     public String getNome() {
         return "Celular";
     }
-} 
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+}

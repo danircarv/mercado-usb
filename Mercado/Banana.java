@@ -10,4 +10,12 @@ public class Banana implements Alimentos {
     public String getNome() {
         return "Banana";
     }
-} 
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+}

@@ -8,4 +8,12 @@ public class Abacate implements Alimentos {
     public String getNome() {
         return "Abacate";
     }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
 }

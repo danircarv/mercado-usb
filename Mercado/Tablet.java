@@ -10,4 +10,12 @@ public class Tablet implements Eletronicos {
     public String getNome() {
         return "Tablet";
     }
-} 
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+}

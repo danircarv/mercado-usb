@@ -15,10 +15,11 @@ public class GerenciadorDeConta {
 
     public void carregarContas(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String linha;
+            String linha = br.readLine(); // Pula o cabeçalho
             while ((linha = br.readLine()) != null) {
                 String[] valores = linha.split(",");
-
+                
+                // Formato esperado: id,nome,isPremium,senha,pontos
                 int id = Integer.parseInt(valores[0].trim());
                 String nome = valores[1].trim();
                 boolean isPremium = Integer.parseInt(valores[2].trim()) == 1;
@@ -41,16 +42,22 @@ public class GerenciadorDeConta {
         }
     }
 
-    public void salvarContas(String filePath) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            for (Cliente conta : contas.values()) {
-                bw.write(conta.getId() + "," + conta.getNome() + "," +
-                        (conta.isPremium() ? "1" : "0") + "," + conta.getSenha() + "," +
-                        conta.getPontos());
-                bw.newLine();
+    public void salvarContas(String arquivo) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(arquivo))) {
+            writer.println("id,nome,isPremium,senha,pontos"); // cabeçalho
+            
+            for (Cliente cliente : contas.values()) {
+                int isPremium = cliente instanceof ClientePremium ? 1 : 0;
+                writer.printf("%d,%s,%d,%d,%d%n", 
+                    cliente.getId(),
+                    cliente.getNome(), 
+                    isPremium,
+                    cliente.getSenha(), 
+                    cliente.getPontos());
             }
+            System.out.println("Contas salvas com sucesso em: " + arquivo);
         } catch (IOException e) {
-            System.out.println("Erro ao salvar o arquivo: " + e.getMessage());
+            System.err.println("Erro ao salvar as contas: " + e.getMessage());
         }
     }
 
