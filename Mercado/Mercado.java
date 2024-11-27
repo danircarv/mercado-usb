@@ -271,7 +271,7 @@ public class Mercado extends JFrame {
                 if (conta.getNome().equals(nome) && conta.getSenha() == senha) {
                     contaAutenticada = conta;
                     System.out.println("Login bem sucedido para: " + nome);
-                    abrirTelaPrincipal();
+                    abrirTelaMenu();
                     dispose();
                     return;
                 }
@@ -282,6 +282,149 @@ public class Mercado extends JFrame {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Senha inválida", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void abrirTelaMenu() {
+        JFrame telaMenu = new JFrame("Menu Principal - Mercado USB");
+        telaMenu.setSize(600, 400);
+        telaMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        telaMenu.setLocationRelativeTo(null);
+        telaMenu.setLayout(new BorderLayout());
+
+        // Header Panel
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(Color.LIGHT_GRAY);
+        headerPanel.setPreferredSize(new Dimension(600, 50));
+
+        String nomeCliente = contaAutenticada.getNome();
+        JLabel nomeClienteLabel = new JLabel("Bem-vindo, " + nomeCliente);
+        nomeClienteLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        headerPanel.add(nomeClienteLabel, BorderLayout.WEST);
+
+        JLabel pontosLabel = new JLabel("Pontos: " + contaAutenticada.getPontos());
+        pontosLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        headerPanel.add(pontosLabel, BorderLayout.EAST);
+
+        telaMenu.add(headerPanel, BorderLayout.NORTH);
+
+        // Botões centralizados
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
+
+        JButton comprasButton = new JButton("Ir às Compras");
+        comprasButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        comprasButton.setMaximumSize(new Dimension(200, 40));
+        comprasButton.addActionListener(e -> {
+            abrirTelaPrincipal();
+            telaMenu.dispose();
+        });
+
+        JButton pontosButton = new JButton("Trocar Pontos");
+        pontosButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pontosButton.setMaximumSize(new Dimension(200, 40));
+        pontosButton.setBackground(Color.ORANGE);
+        pontosButton.setForeground(Color.WHITE);
+        pontosButton.addActionListener(e -> abrirTelaPremios());
+
+        centerPanel.add(comprasButton);
+        centerPanel.add(Box.createVerticalStrut(20)); // Espaço entre os botões
+        centerPanel.add(pontosButton);
+
+        telaMenu.add(centerPanel, BorderLayout.CENTER);
+        telaMenu.setVisible(true);
+    }
+
+    private void abrirTelaPremios() {
+        JFrame telaPremios = new JFrame("Prêmios - Troque seus pontos");
+        telaPremios.setSize(800, 600);
+        telaPremios.setLocationRelativeTo(null);
+        telaPremios.setLayout(new BorderLayout());
+
+        // Header
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(Color.LIGHT_GRAY);
+        JLabel pontosLabel = new JLabel("Seus pontos: " + contaAutenticada.getPontos());
+        pontosLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        headerPanel.add(pontosLabel, BorderLayout.CENTER);
+        telaPremios.add(headerPanel, BorderLayout.NORTH);
+
+        // Painel de prêmios
+        JPanel premiosPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        premiosPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Array com informações dos prêmios
+        String[][] premios = {
+            {"ferrari.png", "Ferrari", "1000000"},
+            {"aviao.png", "Avião Particular", "2000000"},
+            {"hotel.png", "3 Diárias em Hotel 5 Estrelas", "50000"}
+        };
+
+        for (String[] premio : premios) {
+            JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+            
+            // Carregar e redimensionar imagem
+            ImageIcon icon = new ImageIcon("C:/Users/danie/Downloads/Trabalho/Trabalho/Trabalho/mercado-usb/Mercado/" + premio[0]);
+            Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            JLabel imageLabel = new JLabel(new ImageIcon(img));
+            
+            JLabel descLabel = new JLabel(premio[1] + " - " + premio[2] + " pontos");
+            descLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+            
+            JButton resgatarButton = new JButton("Resgatar");
+            int pontosNecessarios = Integer.parseInt(premio[2]);
+            
+            resgatarButton.addActionListener(e -> {
+                if (contaAutenticada.getPontos() >= pontosNecessarios) {
+                    int opcao = JOptionPane.showConfirmDialog(telaPremios,
+                        "Deseja resgatar " + premio[1] + " por " + premio[2] + " pontos?",
+                        "Confirmar Resgate",
+                        JOptionPane.YES_NO_OPTION);
+                        
+                    if (opcao == JOptionPane.YES_OPTION) {
+                        contaAutenticada.setPontos(contaAutenticada.getPontos() - pontosNecessarios);
+                        gerenciador.salvarContas("C:/Users/danie/Downloads/Trabalho/Trabalho/Trabalho/mercado-usb/Mercado/dados.csv");
+                        
+                        JOptionPane.showMessageDialog(telaPremios,
+                            "Procure um mercado USB para retirar seu prêmio!\nPontos restantes: " + contaAutenticada.getPontos(),
+                            "Prêmio Reservado",
+                            JOptionPane.INFORMATION_MESSAGE);
+                        
+                        // Atualiza o label de pontos
+                        pontosLabel.setText("Seus pontos: " + contaAutenticada.getPontos());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(telaPremios,
+                        "Pontos insuficientes!\nVocê tem: " + contaAutenticada.getPontos() + " pontos\nNecessário: " + pontosNecessarios + " pontos",
+                        "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            });
+
+            // Desabilita o botão se não houver pontos suficientes
+            if (contaAutenticada.getPontos() < pontosNecessarios) {
+                resgatarButton.setEnabled(false);
+                resgatarButton.setToolTipText("Pontos insuficientes");
+            }
+
+            itemPanel.add(imageLabel);
+            itemPanel.add(descLabel);
+            itemPanel.add(resgatarButton);
+            
+            premiosPanel.add(itemPanel);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(premiosPanel);
+        telaPremios.add(scrollPane, BorderLayout.CENTER);
+
+        // Botão voltar
+        JButton voltarButton = new JButton("Voltar ao Menu");
+        voltarButton.addActionListener(e -> telaPremios.dispose());
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.add(voltarButton);
+        telaPremios.add(bottomPanel, BorderLayout.SOUTH);
+
+        telaPremios.setVisible(true);
     }
 
     private void calcularTotal() {
