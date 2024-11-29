@@ -295,6 +295,7 @@ public class Mercado extends JFrame {
         nomeClienteLabel.setFont(new Font("Arial", Font.BOLD, 16));
         headerPanel.add(nomeClienteLabel, BorderLayout.WEST);
 
+        // Atualiza o label de pontos sempre que a tela de menu é aberta
         JLabel pontosLabel = new JLabel("Pontos: " + contaAutenticada.getPontos());
         pontosLabel.setFont(new Font("Arial", Font.BOLD, 14));
         headerPanel.add(pontosLabel, BorderLayout.EAST);
@@ -411,9 +412,12 @@ public class Mercado extends JFrame {
         JScrollPane scrollPane = new JScrollPane(premiosPanel);
         telaPremios.add(scrollPane, BorderLayout.CENTER);
 
-        // Botão voltar
+        // Botão voltar modificado
         JButton voltarButton = new JButton("Voltar ao Menu");
-        voltarButton.addActionListener(e -> telaPremios.dispose());
+        voltarButton.addActionListener(e -> {
+            telaPremios.dispose();
+            abrirTelaMenu(); // Reabre a tela de menu com os pontos atualizados
+        });
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(voltarButton);
         telaPremios.add(bottomPanel, BorderLayout.SOUTH);
