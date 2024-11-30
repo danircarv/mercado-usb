@@ -1,3 +1,10 @@
+import Produtos.alimentos.Abacate;
+import Produtos.alimentos.Banana;
+import Produtos.alimentos.Maca;
+import Produtos.eletronicos.Celular;
+import Produtos.eletronicos.Notebook;
+import Produtos.eletronicos.Tablet;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

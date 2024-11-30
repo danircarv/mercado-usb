@@ -1,3 +1,6 @@
+import Produtos.interfaces.Alimentos;
+import Produtos.interfaces.Eletronicos;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

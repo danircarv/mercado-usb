@@ -1,5 +1,9 @@
-public class Banana implements Alimentos {
-    private double preco = 3.50;
+package Produtos.eletronicos;
+
+import Produtos.interfaces.Eletronicos;
+
+public class Celular implements Eletronicos {
+    private double preco = 1200.00;
 
     @Override
     public double getValor(int quantidade) {
@@ -8,7 +12,7 @@ public class Banana implements Alimentos {
 
     @Override
     public String getNome() {
-        return "Banana";
+        return "Produtos.eletronicos.Celular";
     }
 
     public double getPreco() {
