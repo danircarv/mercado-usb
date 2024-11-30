@@ -69,7 +69,7 @@ public class Mercado extends JFrame {
 
         headerPanel.add(nomeClienteLabel, BorderLayout.WEST);
 
-        ImageIcon carrinhoIcon = new ImageIcon("C:/Users/danie/Downloads/Trabalho/Trabalho/Trabalho/mercado-usb/Mercado/carrinho.png");
+        ImageIcon carrinhoIcon = new ImageIcon("Mercado/imagens/carrinho.png");
         Image img = carrinhoIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
         carrinhoIcon = new ImageIcon(img);
         JLabel carrinhoLabel = new JLabel(carrinhoIcon);
@@ -116,13 +116,12 @@ public class Mercado extends JFrame {
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
             panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-            String caminhoBase = "C:/Users/danie/Downloads/Trabalho/Trabalho/Trabalho/mercado-usb/Mercado/";
-            String caminhoImagem = caminhoBase + imagensNomes[i] + ".png";
+            String caminhoImagem = "Mercado/imagens/" + imagensNomes[i] + ".png";
             
             ImageIcon icon = new ImageIcon(caminhoImagem);
             if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) {
                 System.out.println("Erro ao carregar imagem: " + caminhoImagem);
-                icon = new ImageIcon(caminhoBase + "abacate.png");
+                icon = new ImageIcon("Mercado/imagens/abacate.png");
             }
             
             Image scaledImg = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
@@ -350,16 +349,16 @@ public class Mercado extends JFrame {
 
         // Array com informações dos prêmios
         String[][] premios = {
-            {"ferrari.png", "Ferrari", "1000000"},
-            {"aviao.png", "Avião Particular", "2000000"},
-            {"hotel.png", "3 Diárias em Hotel 5 Estrelas", "50000"}
+            {"Mercado/imagens/ferrari.png", "Ferrari", "1000000"},
+            {"Mercado/imagens/aviao.png", "Avião Particular", "2000000"},
+            {"Mercado/imagens/hotel.png", "3 Diárias em Hotel 5 Estrelas", "50000"}
         };
 
         for (String[] premio : premios) {
             JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
             
             // Carregar e redimensionar imagem
-            ImageIcon icon = new ImageIcon("C:/Users/danie/Downloads/Trabalho/Trabalho/Trabalho/mercado-usb/Mercado/" + premio[0]);
+            ImageIcon icon = new ImageIcon(premio[0]);
             Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
             JLabel imageLabel = new JLabel(new ImageIcon(img));
             

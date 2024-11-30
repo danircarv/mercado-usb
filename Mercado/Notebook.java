@@ -1,5 +1,5 @@
 public class Notebook implements Eletronicos {
-    private double preco = 35444400.00;
+    private double preco = 6000.00;
 
     @Override
     public double getValor(int quantidade) {
