@@ -10,7 +10,7 @@ public class Tablet implements Eletronicos {
         return preco * quantidade;
     }
 
-    @Override
+
     public String getNome() {
         return "Tablet";
     }
