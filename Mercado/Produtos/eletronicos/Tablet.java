@@ -12,7 +12,7 @@ public class Tablet implements Eletronicos {
 
     @Override
     public String getNome() {
-        return "Produtos.eletronicos.Tablet";
+        return "Tablet";
     }
 
     public double getPreco() {

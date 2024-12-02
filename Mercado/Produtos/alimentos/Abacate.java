@@ -10,7 +10,7 @@ public class Abacate implements Alimentos {
     }
     @Override
     public String getNome() {
-        return "Produtos.alimentos.Abacate";
+        return "Abacate";
     }
 
     public double getPreco() {
