@@ -86,7 +86,6 @@ public class Carrinho {
         double total = subtotal - desconto;
         System.out.printf("Total: R$ %.2f%n", total);
 
-        // Calcula e adiciona pontos
         int pontosGanhos = (int) (total / 10.0);
         cliente.adicionarPontos(pontosGanhos);
         System.out.println("Pontos ganhos: " + pontosGanhos);
@@ -101,7 +100,7 @@ public class Carrinho {
         }
         
         if (cliente instanceof ClientePremium) {
-            return subtotal * 0.80; // 20% de desconto
+            return subtotal * 0.80;
         }
         return subtotal;
     }
