@@ -12,7 +12,7 @@ public class Banana implements Alimentos {
 
     @Override
     public String getNome() {
-        return "Produtos.alimentos.Banana";
+        return "Banana";
     }
 
     public double getPreco() {

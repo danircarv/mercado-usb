@@ -20,6 +20,6 @@ public class Notebook implements Eletronicos {
 
     @Override
     public String getNome() {
-        return "Produtos.eletronicos.Notebook";
+        return "Notebook";
     }
 } 

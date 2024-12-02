@@ -164,6 +164,7 @@ public class Mercado extends JFrame {
             JSpinner spinner = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
             spinner.setMaximumSize(new Dimension(80, 25));
             spinner.setAlignmentX(Component.CENTER_ALIGNMENT);
+            ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setEditable(false);
             spinners.add(spinner);
             panel.add(spinner);
 

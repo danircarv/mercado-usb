@@ -12,7 +12,7 @@ public class Celular implements Eletronicos {
 
     @Override
     public String getNome() {
-        return "Produtos.eletronicos.Celular";
+        return "Celular";
     }
 
     public double getPreco() {
