@@ -1,3 +1,7 @@
+package Produtos.alimentos;
+
+import Produtos.interfaces.Alimentos;
+
 public class Abacate implements Alimentos {
     private double preco = 25.98;
     @Override
@@ -6,7 +10,7 @@ public class Abacate implements Alimentos {
     }
     @Override
     public String getNome() {
-        return "Abacate";
+        return "Produtos.alimentos.Abacate";
     }
 
     public double getPreco() {
