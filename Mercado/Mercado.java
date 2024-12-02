@@ -406,7 +406,7 @@ public class Mercado extends JFrame {
                         
                     if (opcao == JOptionPane.YES_OPTION) {
                         contaAutenticada.setPontos(contaAutenticada.getPontos() - pontosNecessarios);
-                        gerenciador.salvarContas("C:/Users/danie/Downloads/Trabalho/Trabalho/Trabalho/mercado-usb/Mercado/dados.csv");
+                        gerenciador.salvarContas("Mercado/dados.csv");
                         
                         JOptionPane.showMessageDialog(telaPremios,
                             "Procure um mercado USB para retirar seu prêmio!\nPontos restantes: " + contaAutenticada.getPontos(),
@@ -463,7 +463,7 @@ public class Mercado extends JFrame {
         
 
         contaAutenticada.adicionarPontos((int)total);
-        gerenciador.salvarContas("C:/Users/danie/Downloads/Trabalho/Trabalho/Trabalho/mercado-usb/Mercado/dados.csv");
+        gerenciador.salvarContas("Mercado/dados.csv");
         
         JOptionPane.showMessageDialog(this, 
             String.format("Total da compra: R$ %.2f\nPontos acumulados nesta compra: %d\nTotal de pontos: %d", 
@@ -472,8 +472,7 @@ public class Mercado extends JFrame {
 
     public static void main(String[] args) {
         GerenciadorDeConta gerenciador = new GerenciadorDeConta();
-        System.out.println("Tentando carregar arquivo: C:/Users/prodi/OneDrive/Documentos/Trabalho/mercado-usb/Mercado/dados.csv");
-        gerenciador.carregarContas("C:/Users/danie/Downloads/Trabalho/Trabalho/Trabalho/mercado-usb/Mercado/dados.csv");
+        gerenciador.carregarContas("Mercado/dados.csv");
         new Mercado(gerenciador);
     }
 }
